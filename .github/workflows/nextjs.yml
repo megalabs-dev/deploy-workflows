@@ -7,6 +7,10 @@ on:
         description: Tên service trên server (trùng --name của add-site.sh)
         type: string
         required: true
+      context:
+        description: Thư mục chứa app và Dockerfile trong repo (vd web)
+        type: string
+        default: "."
       build_args:
         description: Các dòng KEY=VALUE cho docker build (NEXT_PUBLIC_*)
         type: string
@@ -53,7 +57,7 @@ jobs:
         env:
           BUILD_ENV: ${{ secrets.BUILD_ENV }}
         with:
-          context: .
+          context: ${{ inputs.context }}
           push: true
           tags: |
             ${{ env.IMAGE }}:latest
