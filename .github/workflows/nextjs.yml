@@ -66,6 +66,9 @@ jobs:
           secret-envs: build_env=BUILD_ENV
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          # Secret BUILD_ENV không nằm trong khoá cache. Luôn build lại stage build để
+          # đổi env (update-env.sh) có hiệu lực dù code không đổi. Stage deps vẫn dùng cache.
+          no-cache-filters: build
 
       - name: Deploy qua SSH (pull, restart, chờ healthy, rollback nếu lỗi)
         uses: appleboy/ssh-action@v1
